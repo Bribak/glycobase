@@ -3,15 +3,16 @@ import pickle
 import re
 
 # Glycans by taxonomic levels
-df_species = pd.read_csv('pydata/glyco_targets_species_seq_all_V2clean.csv')
-df_species.domain = [k.strip() for k in df_species.domain.values.tolist()]
-df_species.kingdom = [k.strip() for k in df_species.kingdom.values.tolist()]
-df_species.phylum = [k.strip() for k in df_species.phylum.values.tolist()]
-df_species['class'] = [k.strip() for k in df_species['class'].values.tolist()]
-df_species.order = [k.strip() for k in df_species.order.values.tolist()]
-df_species.family = [k.strip() for k in df_species.family.values.tolist()]
-df_species.genus = [k.strip() for k in df_species.genus.values.tolist()]
-df_species.target = [str(k) for k in df_species.target.values.tolist()]
+#df_species = pd.read_csv('pydata/glyco_targets_species_seq_all_V2clean.csv')
+#df_species.domain = [k.strip() for k in df_species.domain.values.tolist()]
+#df_species.kingdom = [k.strip() for k in df_species.kingdom.values.tolist()]
+#df_species.phylum = [k.strip() for k in df_species.phylum.values.tolist()]
+#df_species['class'] = [k.strip() for k in df_species['class'].values.tolist()]
+#df_species.order = [k.strip() for k in df_species.order.values.tolist()]
+#df_species.family = [k.strip() for k in df_species.family.values.tolist()]
+#df_species.genus = [k.strip() for k in df_species.genus.values.tolist()]
+#df_species.target = [str(k) for k in df_species.target.values.tolist()]
+df_species = pd.read_csv('pydata/v2_glycobase.csv')
 
 # Lists of possible bonds and sugars
 with open('pydata/all_bonds.pkl','rb') as file:

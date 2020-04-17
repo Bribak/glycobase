@@ -1,7 +1,9 @@
 from collections import Counter
 from glycan_processing_helpers import df_species, link_find
+import pandas as pd
 import pickle
 import re
+
 
 def main_v_side_branch(glycoletter, taxonomy_filter = 'Kingdom', taxonomy_value = 'All'):
   """gets frequency of glycoletter in main versus side branch of glycan"""
@@ -10,10 +12,14 @@ def main_v_side_branch(glycoletter, taxonomy_filter = 'Kingdom', taxonomy_value 
     glycans_df = df_species
   else:
     if taxonomy_filter == 'Kingdom':
-      glycans_df = df_species[df_species['kingdom'] == taxonomy_value]
+      filter_list = pd.Series([taxonomy_value in str(k) for k in df_species['kingdom']],
+                              index = df_species.index)
+      glycans_df = df_species[filter_list]
     else:
-      glycans_df = df_species[df_species['species'] == taxonomy_value]
-  glycan_list = glycans_df.target.values.tolist()
+      filter_list = pd.Series([taxonomy_value in str(k) for k in df_species['species']],
+                              index = df_species.index)
+      glycans_df = df_species[filter_list]
+  glycan_list = glycans_df.glycan.values.tolist()
       
   main = 0
   side = 0
@@ -37,11 +43,15 @@ def characterize_context(glycoletter, mode = 'bond', taxonomy_filter = 'Kingdom'
     glycans_df = df_species
   else:
     if taxonomy_filter == 'Kingdom':
-      glycans_df = df_species[df_species['kingdom'] == taxonomy_value]
+      filter_list = pd.Series([taxonomy_value in str(k) for k in df_species['kingdom']],
+                              index = df_species.index)
+      glycans_df = df_species[filter_list]
     else:
-      glycans_df = df_species[df_species['species'] == taxonomy_value]
+      filter_list = pd.Series([taxonomy_value in str(k) for k in df_species['species']],
+                              index = df_species.index)
+      glycans_df = df_species[filter_list]
     
-  pool = [link_find(k) for k in glycans_df.target.values.tolist()]
+  pool = [link_find(k) for k in glycans_df.glycan.values.tolist()]
   pool = [item for sublist in pool for item in sublist]
   if mode == 'bond':
     pool = [k.split('*')[0] for k in pool if k.split('*')[1] == glycoletter]
